@@ -83,6 +83,25 @@ public class TestArrays {
 			System.out.println(cor);
 		}
 		
+		// Trabalhando com Referencias
+		Animal cachorro = new Animal();
+		cachorro.nome = "Cookie";
+		
+		
+		ArrayList<Animal> animais = new ArrayList<>();
+		animais.add(cachorro);
+		
+		System.out.println(cachorro.nome);
+		System.out.println(animais.get(0).nome);
+		
+		
+		cachorro.nome= "Scobby";
+		
+		System.out.println(cachorro.nome);
+		System.out.println(animais.get(0).nome);
+		// Quando o bjeto é alterado, toda referência dele é alterada.
+		
+		
 		
 	}	
 	
