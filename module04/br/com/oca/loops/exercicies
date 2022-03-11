@@ -1,0 +1,112 @@
+1- Escolha a opção adequada ao tentar compilar e rodar o arquivo a seguir:
+
+class A {
+    public static void main(String[] args) {
+        for(;;) {
+            System.out.println("a");
+        }
+        System.out.println("b");
+    }
+}
+
+
+A)Não compila.
+B)Compila e imprime b.
+C)Compila e imprime a infinitamente.
+D)Compila e imprime a, depois b, depois para.
+E)Compila, imprime a diversas vezes e depois dá um StackOverflowError.
+================================================================================
+2- Escolha a opção adequada ao tentar compilar e rodar o arquivo a seguir:
+
+class A {
+    public static void main(String[] args) {
+        for(;false;) {
+            System.out.println("a");
+            break;
+        }
+        System.out.println("b");
+    }
+}
+A)Compila e imprime b.
+B)Compila, imprime a e b.
+C)Não compila.
+================================================================================
+
+3- Escolha a opção adequada ao tentar compilar e rodar o arquivo a seguir:
+
+class A {
+  public static void main(String[] args) {
+    for(int i=0, int j=1; i<10; i++, j++) System.out.println(i);
+ }
+}
+
+A)Compila e imprime 0 até 9.
+B)Compila e imprime 1 até 10.
+C)Não compila.
+D)Compila e imprime 1 até 11.
+E)Compila e imprime 0 até 10.
+================================================================================
+4- Escolha a opção adequada ao tentar compilar e rodar o arquivo a seguir:
+
+
+class A {
+    public static void main(String[] args) {
+        for(int i=0, j=1; i<10 ;i++, j++) System.out.println(i);
+    }
+}
+
+A)Compila e imprime 0 até 10.
+B)Compila e imprime 1 até 11.
+C)Não compila.
+D)Compila e imprime 1 até 10.
+E)Compila e imprime 0 até 9.
+
+================================================================================
+5- Escolha a opção adequada ao tentar compilar e rodar o arquivo a seguir:
+
+class A {
+    public static void main(String[] args) {
+        for(int i=0; i<10, false; i++) {
+            System.out.println('a');
+        }
+        System.out.println('b');
+    }
+}
+
+A)Compila e imprime 'a' e 'b'.
+B)Não compila.
+C)Compila e imprime 'b'.
+
+================================================================================
+6- Escolha a opção adequada ao tentar compilar e rodar o arquivo a seguir:
+
+
+class A {
+    public static void main(String[] args) {
+        for(int i=0; i<2; i++, System.out.println(i)) {
+            System.out.println(i);
+        }
+    }
+}
+
+
+A)Compila e imprime 0 1 1 2 2.
+B)Compila e imprime 0 0 1 1 2 2.
+C)Compila e imprime 0 1 2.
+D)Compila e imprime 0 1 1 2.
+E)Não compila.
+
+================================================================================
+
+GABARITO
+1 - O código não compila, pois o laço nunca é quebrado e nunca chega a executar o código que imprime b.
+2 - O código não compila, pois o código dentro de for nunca será executado.
+3 - O código não compila, pois tentamos definir o tipo duas vezes dentro for. O for correto seria: for(int i=0, j=1; i<10; i++, j++) System.out.println(i);
+4 - Compila e imprime os valores 0 até 9.
+5 - O código não compila pois a condição de um for deve ser única.
+6 - O código compila e imprime 0 1 1 2
+
+
+
+
+
