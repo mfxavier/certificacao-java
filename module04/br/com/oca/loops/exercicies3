@@ -1,0 +1,90 @@
+1- Escolha a opção adequada ao tentar compilar e rodar o arquivo a seguir:
+
+class A {
+    public static void main(String[] args) {
+         fora: for(int a=0;a<30;a++)
+         for(int b=0;b<1;b++)
+         if(a+b==25) continue fora;
+         else if(a+b==20) break fora;
+         if(a==0) break fora;
+         else System.out.println(a);
+    }
+}
+
+A)Não compila.
+B)Compila e imprime 1 até 19
+C)Compila e imprime 1 até 19, 21 até 24, 26 até 29
+D)Compila e imprime 1 até 24, 26 até 29
+E)Compila e imprime 1 até 29
+F)Compila e não imprime nada
+===============================================================================================
+2- Escolha a opção adequada ao tentar compilar e rodar o arquivo a seguir:
+
+class A {
+    public static void main(String[] args) {
+         fora: for(int a=0;a<30;a++)
+         for(int b=0;b<1;b++)
+         if(a+b==25) continue fora;
+         else if(a+b==20) break;
+         else System.out.println(a);
+    }
+}
+
+A)Compila e imprime 0 até 29.
+B)Compila e imprime 0 até 24, 26 até 29.
+C)Compila e não imprime nada.
+D)Compila e imprime 0 até 19.
+E)Não compila.
+F)Compila e imprime 0 até 19, 21 até 24, 26 até 29.
+
+===============================================================================================
+3-Escolha a opção adequada ao tentar compilar e rodar o arquivo a seguir:
+
+
+class A {
+    public static void main(String[] args) {
+        int a = args.length;
+        int i = 0;
+        switch(a) {
+            case 0:
+            case 1:
+            for(i=0;i<15;i++, System.out.println(i))
+            if(i==5) continue;
+            if(i==15) break;
+            case 2:
+            System.out.println("2");
+        }
+        System.out.println("fim");
+    }
+}
+
+A)Compila e ao rodar com 0 argumentos imprime 1 até 15, 2, fim.
+B)Compila e ao rodar com 0 argumentos imprime 0 até 4, 6 até 14, 2, fim.
+C)Compila e ao rodar com 0 argumentos imprime 1 até 15, fim.
+D)Compila e ao rodar com 0 argumentos imprime 1 até 4, 6 até 15, fim.
+E)Compila e ao rodar com 0 argumentos imprime 1 até 15, 2, fim.
+F)Não compila.
+G)Compila e ao rodar com 0 argumentos imprime 0 até 14, 2, fim.
+H)Compila e ao rodar com 0 argumentos imprime 1 até 4, 6 até 15, 2, fim.
+I)Compila e ao rodar com 0 argumentos imprime 1 até 4, 6 até 9, fim.
+J)Compila e ao rodar com 0 argumentos imprime 0 até 4, 6 até 9, 2, fim.
+
+
+
+
+
+
+
+
+
+===============================================================================================
+GABARITO
+
+1 -O código não compila pois o segundo if está fora do bloco do for e tenta acessar uma variável definida dentro dele. Lembre-se que o escopo de um bloco for sem chaves é uma única instrução, no caso o primeiro if else if.
+2- Compila e imprime 0 até 19, 21 até 24, 26 até 29.
+3- Compila e ao rodar com 0 argumentos imprime 1 até 15, fim.
+
+
+
+
+

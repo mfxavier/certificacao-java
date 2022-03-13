@@ -9,8 +9,46 @@ package br.com.oca.loops;
  * */
 public class TestaWhile {
 	public static void main(String args[]) {
-		aula01();
+		aula03_1();
 	}
+	static void aula03() {
+		
+		int i = 1;
+		// 1º exemplo, onde verifica a condição e  depois executa.  
+		while(i<10) {
+			System.out.println(i);
+			i++;
+		}
+		// 2º exemplo, onde executa primeiro e depois  verifica a condição.
+		int j = 11;
+		
+		do {
+			System.out.println(j);
+			j++;
+		} while(j < 10);
+		
+		
+	}
+	
+	static void aula03_1() {
+		// Mesmo exemplo sem chaves
+		int i = 1;
+		// 1º exemplo, onde verifica a condição e  depois executa.  
+		while(i<10) 
+			System.out.println(i++);
+			System.out.println("NAO APRESENTA ERRO ");// Não apresenta erro porém só executa uma vez
+		
+		// 2º exemplo, onde executa primeiro e depois  verifica a condição.
+		int j = 11;
+		do 
+			System.out.println(j++); 
+			//System.out.println("Erro"); // Apresenta erro nesse caso
+		 while(j < 10);
+		
+		
+	}
+	
+	
 	static void aula01() {
 		int i  = 1;
 		while(i<10) { // primeiro verifica a condição
@@ -37,4 +75,5 @@ public class TestaWhile {
 			System.out.println(y);
 		*/
 	}
+	
 }

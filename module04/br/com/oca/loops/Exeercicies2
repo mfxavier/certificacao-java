@@ -1,0 +1,112 @@
+1-Escolha a opção adequada ao tentar compilar e rodar o arquivo a seguir:
+
+class A {
+    public static void main(String[] args) {
+        boolean i = false;
+        do {
+            System.out.println(i);
+        } while(i);
+    }
+}
+
+A)Compila e não imprime nada.
+B)Não compila.
+C)Compila e imprime false.
+
+================================================================================
+2- Escolha a opção adequada ao tentar compilar e rodar o arquivo a seguir:
+class A {
+    public static void main(String[] args) {
+        if(args.length < 10) {
+            do {
+                if(args.length>2) return;
+            } while(true);
+        }
+        System.out.println("Finalizou");
+    }
+}
+
+A)Compila e entra em loop infinito caso seja passado zero, um ou dois argumentos. Não imprime nada caso 3 a 9 argumentos. Imprime 'Finalizou' caso 10 ou mais argumentos.
+B)Não compila.
+C)Compila e entra em loop infinito caso seja passado zero, um ou dois argumentos. Imprime 'Finalizou' caso contrário.
+D)Compila e sempre entra em loop infinito.
+
+================================================================================
+3- Escolha a opção adequada ao tentar compilar e rodar o arquivo a seguir:
+
+class A {
+    public static void main(String[] args) {
+        int i = 0;
+        do System.out.println(i); while(i++>10);
+    }
+}
+
+A)Compila e imprime 0.
+B)Compila e não imprime nada.
+C)Compila e imprime de 0 até 9.
+D)Não compila.
+E)Compila e imprime de 0 até 10.
+F)Compila e não imprime nada.
+
+
+================================================================================
+4- Escolha a opção adequada ao tentar compilar e rodar o arquivo a seguir:
+
+class A {
+    public static void main(String[] args) {
+        int i = 0;
+        do System.out.println(i) while(i++<10);
+    }
+}
+
+A)Compila e imprime de 0 até 10.
+B)Compila e imprime de 0 até 9.
+C)Não compila.
+D)Compila e não imprime nada.
+
+================================================================================
+5- Escolha a opção adequada ao tentar compilar e rodar o arquivo a seguir:
+
+class A {
+    public static void main(String[] args) {
+        int i = 0;
+        do; while(i++<10);
+    }
+}
+
+A)Compila e sai.
+B)Compila e entra em loop infinito.
+C)Não compila.
+
+================================================================================
+
+GABARITO
+
+1- O código compila e imprime false, pois ele sempre entra no laço pelo menos uma vez.
+2- Compila e entra em loop infinito caso seja passado zero, um ou dois argumentos. Não imprime nada caso 3 a 9 argumentos. Imprime 'Finalizou' caso 10 ou mais argumentos.
+3- O código compila e imprime 0, já que a condição é i maior que 10.
+4- O código não compila, pois faltou um ponto e vírgula.
+5- Compila e sai.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
