@@ -1,0 +1,118 @@
+1- Escolha a opção adequada ao tentar compilar e rodar o arquivo a seguir:
+
+class A {
+    public static void main(String[] args) {
+        x();
+    }
+    static x() {
+        System.out.println("x");
+        y();
+    }
+    static y() {
+        System.out.println("y");
+    }
+}
+
+A)Imprime x, y.
+B)Imprime y, x.
+C)Não compila.
+D)Imprime x.
+E)Imprime y.
+====================================================================================
+2- Escolha a opção adequada ao tentar compilar e rodar o arquivo a seguir:
+
+class A {
+    public static void main(String[] args) {
+        x();
+    }
+    static void x() {
+        System.out.println("x");
+        y();
+    }
+    static void y() {
+        System.out.println("y");
+    }
+}
+
+A)Imprime y, x.
+B)Imprime x.
+C)Imprime x, y.
+D)Imprime y.
+E)Não compila.
+
+====================================================================================
+3- Escolha a opção adequada ao tentar compilar e rodar o arquivo a seguir:
+
+
+class B {
+    void y() {
+        this.z();
+    }
+    static void z() {
+        System.out.println("z");
+    }
+}
+class A {
+    public static void main(String[] args) {
+        new A().x();
+    }
+    static void x() {
+        new B().y();
+    }
+}
+
+A)Não compila ao tentar invocar z.
+B)Não compila ao tentar invocar x.
+C)Não compila ao tentar invocar y.
+D)Compila e imprime z.
+===================================================================================
+4- Escolha a opção adequada ao tentar compilar e rodar o arquivo a seguir:
+
+class B{
+    static void x() {
+        System.out.println("x");
+    }
+    static void y() {
+        System.out.println("y");
+    }
+}
+class A extends B {
+    public static void main(String[] args) {
+        this.x();
+        A.y();
+    }
+}
+
+A)Não compila, erro ao invocar x.
+B)Imprime x, y.
+C)Não compila, erro ao invocar y.
+=======================================================================
+5- Escolha a opção adequada ao tentar compilar e rodar o arquivo a seguir:
+
+class B{
+    static void x() {
+        System.out.println("x");
+    }
+    static void y() {
+        System.out.println("y");
+    }
+}
+class A extends B {
+    public static void main(String[] args) {
+        x();
+        A.y();
+    }
+}
+
+A)Não compila, erro ao invocar x.
+B)Não compila, erro ao invocar y.
+C)Imprime x, y.
+
+====================================================================================
+GABARITO
+
+1- O código não compila pois os métodos não possuem tipo de retorno definido. Típica pegadinha: parece focar em static mas está focado em outra coisa.
+2- Imprime x, depois y.
+3- Compila e imprime z.
+4- O código não compila pois tenta acessar this dentro de um contexto estático.
+5- O código compila e imprime x e y.

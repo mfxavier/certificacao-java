@@ -1,0 +1,117 @@
+1- Escolha a opção adequada ao tentar compilar e rodar o arquivo a seguir:
+
+class A {
+    public static void main(String[] args) {
+        x(args.length);
+    }
+    static int x(int l) {
+        for(int i=0;i<100;i++) {
+            switch(i) {
+                case l:
+                    System.out.println(l);
+                    if(l==i) return;
+                case 0:
+                    System.out.println(0);
+            }
+        }
+        System.out.println("Fim");
+        return -1;
+    }
+}
+
+A)Não compila.
+B)Compila e ao rodar com cinco parâmetros, imprime 0, 5, 0, -1 e Fim.
+C)Compila e ao rodar com cinco parâmetros, imprime 0, 5, -1 e Fim.
+D)Compila e ao rodar com cinco parâmetros, imprime 0, 5 e -1.
+E)Compila e ao rodar com cinco parâmetros, imprime 0 e 5.
+F)Compila e ao rodar com cinco parâmetros, imprime 0, 5, 0 e -1.
+G)Compila e ao rodar com cinco parâmetros, imprime 0, 5, 0 e Fim.
+H)Compila e ao rodar com cinco parâmetros, imprime 0, 5 e Fim.
+I)Compila e ao rodar com cinco parâmetros, imprime 0 e 5.
+
+=========================================================================================
+2- Escolha a opção adequada ao tentar compilar e rodar o arquivo a seguir:
+
+class A {
+    public static void main(String[] args) {
+        x(args.length);
+    }
+    static int x(final int l) {
+        for(int i=0;i<100;i++) {
+            switch(i) {
+                case l:
+                    System.out.println(l);
+                    if(l==i) return 3;
+                case 0:
+                    System.out.println(0);
+            }
+        }
+        System.out.println("Fim");
+        return -1;
+    }
+}
+
+A)Compila e ao rodar com cinco parâmetros, imprime 0, 5, 0 e Fim.
+B)Compila e ao rodar com cinco parâmetros, imprime 0, 5 e -1.
+C)Compila e ao rodar com cinco parâmetros, imprime 0, 5, 0, -1 e Fim.
+D)Não compila.
+E)Compila e ao rodar com cinco parâmetros, imprime 0, 5 e 0.
+F)Compila e ao rodar com cinco parâmetros, imprime 0, 5 e Fim.
+G)Compila e ao rodar com cinco parâmetros, imprime 0, 5, -1 e Fim.
+H)Compila e ao rodar com cinco parâmetros, imprime 0, 5, 0 e -1.
+I)Compila e ao rodar com cinco parâmetros, imprime 0 e 5.
+
+=========================================================================================
+3- Escolha a opção adequada ao tentar compilar e rodar o arquivo a seguir:
+
+class A {
+    public static void main(String[] args) {
+        System.out.println(a(args.length));
+    }
+    static int a(int l) {
+        if(l<10) return b(l); //A
+        else return c(); // B
+    }
+    static int b(int l) {
+        if(l<10) return b(l); // C
+        else return c(); // D
+    }
+    static long c() {
+        return 3;
+    }
+}
+
+A)Não compila: erro nas linhas B e D
+B)Compila e, ao chamar com 15 argumentos, entra em loop infinito.
+C)Não compila: erro nas linha A e C
+D)Compila e, ao chamar com 15 argumentos, imprime 3.
+E)Não compila por um motivo não listado
+
+
+=========================================================================================
+
+Escolha a opção adequada ao tentar compilar e rodar o arquivo a seguir:
+
+
+class A {
+    public static void main(String[] args) {
+        System.out.println(a(args.length)[0]);
+    }
+    static int,int a(int l) {
+        if(l==0) return {0, l};
+        else return {l, 0};
+    }
+}
+
+A)Ao invocar com nenhum parâmetro, imprime 0.
+B)Não compila.
+C)Ao invocar com nenhum parâmetro, imprime o par { 0, 0 }.
+
+
+==========================================================================================
+GABARITO
+
+1- O código não compila pois existe um return sem valor e está sendo utilizado um valor não constante no case do switch.
+2- Não compila, pois não basta a variável ser final; para funcionar no ::switch::, ela tem que ser definida com valor constante (sempre 5, por exemplo).
+3- O código não compila porque o método c retorna um long, e esse long é utilizado como retorno no método a e no método b. Ambos precisam de um retorno do tipo int, que não tem conversão automática.
+4- O código não compila, pois não existe retorno de método com dois valores como int, int.
