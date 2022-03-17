@@ -1,0 +1,793 @@
+Diferença entre o construtor padrão e construtores definidos pelo usuário
+PRÓXIMA ATIVIDADE
+
+Quando não escrevemos um construtor na nossa classe, o compilador nos dá um construtor padrão. Esse construtor, chamado de default não recebe argumentos, tem a mesma visibilidade da classe e tem a chamada a super().
+
+A classe a seguir:
+
+
+class A {
+}COPIAR CÓDIGO
+... na verdade, acaba sendo:
+
+
+class A {
+    A() {
+        super();
+    }
+}COPIAR CÓDIGO
+Caso você adicione um construtor qualquer, o construtor default deixa de existir:
+
+
+class A {}
+class B {
+    B(String s) {}
+}
+class Teste {
+    public static void main(String[] args) {
+        new A(); // construtor padrão, compila
+        new B(); // não existe mais construtor padrão
+        new B("CDC"); // construtor existente
+    }
+}COPIAR CÓDIGO
+Dentro de um construtor você pode acessar e atribuir valores aos atributos, suas variáveis membro:
+
+
+class Teste {
+    int i;
+    Teste() {
+        i = 15; // agora i vale 15
+        System.out.println(i); // 15
+    }
+
+    public static void main(String[] args) {
+        new Teste();
+    }
+}COPIAR CÓDIGO
+Os valores inicializados com a declaração das variáveis são inicializados antes do construtor, justamente por isso o valor inicial de i é 0, o valor padrão de uma variável int membro:
+
+
+class Teste {
+    int i;
+    Teste() {
+        System.out.println(i); // vale 0 por padrão
+        i = 15; // agora i vale 15
+        System.out.println(i); // 15
+    }
+
+    public static void main(String[] args) {
+        new Teste();
+    }
+}COPIAR CÓDIGO
+Vale lembrar que variáveis membro são inicializadas automaticamente para: numéricas 0, boolean false, referências null.
+
+Cuidado ao acessar métodos cujas variáveis ainda não foram inicializadas no construtor. O exemplo a seguir mostra um caso em que o método de inicialização é invocado antes de setar o valor da variável no construtor, o que causa um NullPointerException.
+
+
+class A {
+
+    int i = 15;
+    String nome;
+    int tamanho = tamanhoDoNome();
+
+    A(String nome) {
+        this.nome = nome;
+    }
+
+    int tamanhoDoNome() {
+        return nome.length();
+    }
+
+    A() {
+    }
+
+}COPIAR CÓDIGO
+Mesmo que inicializemos a variável fora do construtor, após a chamada do método pode ocorrer um erro, como no caso a seguir, de um outro NullPointerException:
+
+
+class A {
+
+    int i = 15;
+    String nome;
+    int tamanho = tamanhoDoSobrenome();
+    String sobrenome = "Silveira";
+
+    A(String nome) {
+        this.nome = nome;
+    }
+
+    int tamanhoDoSobrenome() {
+        return sobrenome.length();
+    }
+
+    A() {
+    }
+
+}COPIAR CÓDIGO
+Mudar a ordem da declaração das variáveis resolve o problema, uma vez que o método é agora invocado após a inicialização da variável sobrenome:
+
+
+class A {
+
+    int i = 15;
+    String nome;
+    String sobrenome = "Silveira";
+    int tamanho = tamanhoDoSobrenome();
+
+    A(String nome) {
+        this.nome = nome;
+    }
+
+    int tamanhoDoSobrenome() {
+        return sobrenome.length();
+    }
+
+    A() {
+    }
+
+}COPIAR CÓDIGO
+Cuidado ao invocar métodos no construtor e variáveis estarem nulas:
+
+
+class Teste {
+    String nome;
+    Teste() {
+        testaTamanho(); // NullPointerException
+        nome = "aprendendo";
+    }
+
+    private void testaTamanho() {
+        System.out.println(nome.length());
+    }
+
+    public static void main(String[] args) {
+        new Teste();
+    }
+}COPIAR CÓDIGO
+E mais cuidado ainda caso isso ocorra por causa de sobrescrita de método, em que também poderemos ter essa Exception:
+
+
+class Base {
+    String nome;
+    Base() {
+        testa();
+        nome = "aprendendo";
+    }
+
+    void testa() {
+        System.out.println("testa");
+    }
+
+}
+class Teste extends Base {
+    void testa() {
+        System.out.println(nome.length());
+    }
+    public static void main(String[] args) {
+        new Teste();
+    }
+}COPIAR CÓDIGO
+Já se o método testa for privado, como o binding da chamada ao método é feito em compilação, o método invocado pelo construtor é o da classe mãe, sem dar a Exception:
+
+
+class Base {
+    String nome;
+    Base() {
+        testa();
+        nome = "aprendendo";
+    }
+
+    private void testa() {
+        System.out.println("testa");
+    }
+
+}
+class Teste extends Base {
+    void testa() {
+        System.out.println(nome.length());
+    }
+    public static void main(String[] args) {
+        new Teste();
+    }
+}COPIAR CÓDIGO
+Você pode entrar em loop infinito, cuidado, StackOverflow:
+
+
+class Teste {
+    Teste() {
+        new Teste();
+    }
+    public static void main(String[] args) {
+        new Teste();
+    }
+}COPIAR CÓDIGO
+Construtores podem ser de todos os tipos de modificadores de acesso: private, protected, default e public.
+
+É comum criar um construtor privado e um método estático para criar seu objeto:
+
+
+class Teste {
+    private Teste() {
+    }
+
+    public static Teste cria() {
+        return new Teste();
+    }
+}COPIAR CÓDIGO
+Tenha muito cuidado com um método com nome do construtor. Se colocar um void na frente, vira um método:
+
+
+class Teste {
+  void Teste() {
+    System.out.println("Construindo");
+  }
+
+  public static void main(String[] args) {
+
+    new Teste(); 
+    // não imprime nada, definimos um método e não o construtor
+    new Teste().Teste(); 
+    // agora imprime Construindo
+  }
+}COPIAR CÓDIGO
+Existem também blocos de inicialização que não são cobrados na prova.
+
+ ==============================
+ 
+ Crie e sobrecarregue construtores
+PRÓXIMA ATIVIDADE
+
+Construtores também podem ser sobrecarregados:
+
+
+class Teste {
+    public Teste() {
+    }
+    public Teste(int i) {
+    }
+}COPIAR CÓDIGO
+Cuidado com os exemplos de sobrecarga com varargs, como vimos antes, e no caso de herança.
+
+Quando existem dois construtores na mesma classe, um construtor pode chamar o outro através da chamada this. Note que loops não compilam:
+
+
+class Teste {
+    public Teste() {
+        System.out.println("construtor simples");
+    }
+    public Teste(int i) {
+        this();
+    }
+    public Teste(String s) {
+        this(s, s);  // não compila, loop
+    }
+    public Teste(String s, String s2) {
+        this(s); // não compila, loop
+    }
+}COPIAR CÓDIGO
+Temos que tomar cuidado com sobrecarga da mesma maneira que tomamos cuidado com sobrecarga de métodos: os construtores invocados seguem as mesmas regras que as de métodos.
+
+Quando um método utiliza varargs, se ele possui uma variação do método sem nenhum argumento e invocarmos sem argumento, ele chamará o método sem argumentos (para manter compatibilidade com versões anteriores do Java):
+
+
+void desativa(Cliente... clientes) {
+    System.out.println("varargs");
+}
+void desativa() {
+    System.out.println("sem argumento");
+}
+void metodo() {
+    desativa(); // imprime sem argumento
+}COPIAR CÓDIGO
+A instrução this do construtor deve ser sempre a primeira dentro do construtor:
+
+
+class Teste {
+    Teste() {
+        String valor = "valor...";
+        this(valor); // não compila
+    }
+
+    Teste(String s) {
+        System.out.println(s);
+    }
+
+    public static void main(String[] args) {
+        new Teste();
+    }
+}COPIAR CÓDIGO
+Justo por isso não é possível ter duas chamadas a this:
+
+
+class Teste {
+    Teste() {
+        this(valor);
+        this(valor); // não compila
+    }
+
+    Teste(String s) {
+        System.out.println(s);
+    }
+
+    public static void main(String[] args) {
+        new Teste();
+    }
+}COPIAR CÓDIGO
+A instrução this pode envolver instruções:
+
+
+class Teste {
+    Teste() {
+        this(valor());
+    }
+
+    private static String valor() {
+        return "valor...";
+    }
+
+    Teste(String s) {
+        System.out.println(s);
+    }
+
+    public static void main(String[] args) {
+        new Teste();
+    }
+}COPIAR CÓDIGO
+A instrução não pode ser um método da própria classe, pois o objeto não foi construído ainda:
+
+
+class Teste {
+    Teste() {
+        this(valor()); // valor não é estático, não compila
+    }
+
+    private String valor() {
+        return "valor...";
+    }
+
+    Teste(String s) {
+        System.out.println(s);
+    }
+
+    public static void main(String[] args) {
+        new Teste();
+    }
+}
+
+
+Aplique modificadores de acesso
+PRÓXIMA ATIVIDADE
+
+Os modificadores de acesso, ou modificadores de visibilidade, servem para definir quais partes de cada classe (ou se uma classe inteira) estão visíveis para serem utilizadas por outras classes do sistema. Só é permitido usar um único modificador de acesso por vez:
+
+
+private public int x; // não compilaCOPIAR CÓDIGO
+O Java possui os seguintes modificadores de acesso:
+
+public
+protected
+Nenhum modificador, chamado de default
+private
+Classes e interfaces só aceitam os modificadores public ou default.
+
+Membros (construtores, métodos e variáveis) podem receber qualquer um dos quatro modificadores.
+
+Variáveis locais (declaradas dentro do corpo de um método ou construtor) e parâmetros não podem receber nenhum modificador de acesso, mas podem receber outros modificadores.
+
+Top Level Classes e Inner Classes
+Classes internas (nested classes ou inner classes) são classes que são declaradas dentro de outras classes. Esse tipo de classe pode receber qualquer modificador de acesso, já que são consideradas membros da classe onde foram declaradas (top level class).
+
+Nesta certificação não são cobradas classes internas, apenas top level classes.
+
+Para entender como os modificadores funcionam, vamos imaginar as seguintes classes:
+
+
+package forma;
+
+class Forma{
+    double lado;
+    double getArea(){
+        return 0;
+    }
+}COPIAR CÓDIGO
+
+package forma;
+
+class Quadrado extends Forma{}COPIAR CÓDIGO
+
+package forma.outro;
+import forma.*;
+
+class Triangulo extends Forma{}COPIAR CÓDIGO
+Public
+O modificador public é o menos restritivo de todos. Classes, interfaces e membros marcados com esse modificador podem ser acessados de qualquer componente, em qualquer pacote. Vamos alterar nossa classe Forma, marcando-a e todos seus membros com o modificador public:
+
+
+package forma;
+
+public class Forma{
+    public double lado;
+    public double getArea(){
+        return 0;
+    }
+}COPIAR CÓDIGO
+Agora vamos fazer um teste:
+
+
+package forma.outro;
+import forma.*;
+
+public class TesteOutroPacote{
+
+    public static void main(String... args){
+        Forma f = new Forma(); //acesso a classe forma
+        f.lado = 5.5; //acesso ao atributo lado
+        f.getArea(); //acesso ao método getArea()
+    }
+}COPIAR CÓDIGO
+Repare que, mesmo nossa classe TesteOutroPacote estando em um pacote diferente da classe Forma, é possível acessar a classe e todos os membros declarados como public.
+
+Protected
+Membros definidos com o modificador protected podem ser acessados por classes e interfaces no mesmo pacote, e por qualquer classe que estenda aquela onde o membro foi definido, independente do pacote.
+
+Vamos modificar nossa classe Forma para entendermos melhor:
+
+
+package forma;
+
+public class Forma{
+    protected double lado; // agora protected
+    public double getArea(){}
+}COPIAR CÓDIGO
+Com o modificador protected, nossa classe de testes em outro pacote não compila mais:
+
+
+package forma.outro;
+import forma.*;
+
+public class TesteOutroPacote{
+
+    public static void main(String... args){
+        Forma f = new Forma(); 
+        f.lado = 5.5; // erro de compilação
+        f.getArea(); 
+    }
+}COPIAR CÓDIGO
+Se criarmos uma nova classe de teste no pacote forma, conseguimos acessar novamente o atributo:
+
+
+package forma;
+
+public class Teste{
+
+    public static void main(String... args){
+        Forma f = new Forma(); 
+        f.lado = 5.5; // compila normal, mesmo pacote
+    }
+}COPIAR CÓDIGO
+Embora esteja em um pacote diferente, a classe Triangulo consegue acessar o atributo lado, já que ela estende da classe Forma:
+
+
+package forma.outro;
+import forma.*;
+
+class Triangulo extends Forma{
+
+    public void imprimeLado(){
+        //Como é uma classe filha, acessa 
+        //normalmente os membros protected da classe mãe.
+        System.out.println("O Lado é " + lado);
+    }
+}COPIAR CÓDIGO
+Agora repare que, se efetuarmos o casting do objeto atual para uma Forma, não podemos acessar seu lado:
+
+
+package outro;
+import forma.*;
+
+class Triangulo extends Forma{
+
+    public void imprimeLado(){
+        // compila
+        System.out.println("O Lado é " + lado); 
+
+        // não compila
+        System.out.println("O Lado é " + ((Forma) this).lado); 
+    }
+}COPIAR CÓDIGO
+Isso ocorre porque estamos dizendo que queremos acessar a variável membro lado de um objeto através de uma referência para este objeto, e não diretamente. Diretamente seria o uso puro do this ou nada. Nesse caso, após usar o this, usamos um casting, o que deixa o compilador perdido.
+
+Default
+Se não definirmos explicitamente qual o modificador de acesso, podemos dizer que aquele membro está usando o modificador default, também chamado de package private. Neste caso, os membros da classe só serão visíveis dentro do mesmo pacote:
+
+
+package forma;
+
+public class Forma{
+    protected double lado; 
+    public double getArea(){
+        return 0;
+    }
+    double getPerimetro(){ //default access 
+        return 0;
+    }
+}COPIAR CÓDIGO
+O método getPerimetro() só será visível para todas as classes do pacote forma. Nem mesmo a classe Triangulo - que, apesar de herdar de Forma, está em outro pacote - consegue ver o método.
+
+
+package outro;
+import forma.*;
+
+class Triangulo extends Forma{
+
+    public void imprimePerimetro(){
+        //Erro de compilação na linha abaixo
+        System.out.println("O Perímetro é " + getPerimetro());
+    }
+}COPIAR CÓDIGO
+Palavra-chave %%default%%
+Lembre-se! A palavra-chave default é usada para definir a opção padrão em um bloco switch, ou para definir um valor inicial em uma Annotation. Usá-la em uma declaração de classe ou membro é inválido e causa um erro de compilação:
+
+
+default class Bola{ //ERRO
+    default String cor; // ERRO
+}COPIAR CÓDIGO
+A partir do Java 8, a palavra default também pode ser usada para definir uma implementação inicial de um método.
+
+Mas e se declararmos uma classe com o modificador default? Isso vai fazer com que aquela classe só seja visível dentro do pacote onde foi declarada. Não importa quais modificadores os membros dessa classe tenham, se a própria classe não é visível fora de seu pacote, nenhum de seus membros é visível também.
+
+Veja a classe Quadrado, que está definida com o modificador default:
+
+
+package forma;
+
+class Quadrado extends Forma{}COPIAR CÓDIGO
+Veja o seguinte código, usando a classe TesteOutroPacote. Perceba que não é possível usar a classe Quadrado, mesmo importando todas as classes do pacote forma:
+
+
+package outro;
+import forma.*;
+
+public class TesteOutroPacote{
+
+    public static void main(String... args){
+        Quadrado q = new Quadrado(); // erro, esta classe não é
+                                     //visível
+    }
+}COPIAR CÓDIGO
+Linha com erro de compilação
+Eventualmente, na prova, é perguntado em quais linhas ocorreram os erros de compilação. É bem importante prestar atenção nesse detalhe.
+
+Por exemplo, neste caso, o erro sempre acontecerá quando tentarmos acessar a classe Quadrado, que não é visível fora de seu pacote:
+
+
+package outro;
+
+//import de todas as classes PÚBLICAS do pacote, nenhum erro
+import forma.*; 
+
+
+public class TesteOutroPacote{
+
+    public static void main(String... args){
+        // erro na linha 8, Quadrado não é visível, pois não 
+        // é pública
+        Quadrado q = new Quadrado(); 
+    }
+}COPIAR CÓDIGO
+O mesmo código pode apresentar erro em uma linha diferente, apenas mudando o import. Repare que o código a seguir dá erro nas duas linhas, tanto do import quanto na tentativa de uso:
+
+
+package outro;
+// erro na linha 3, não podemos importar classes não públicas 
+import forma.Quadrado;
+
+public class TesteOutroPacote{
+
+    public static void main(String... args){
+
+        //Erro, pois Quadrado não é acessível.
+        Quadrado q = new Quadrado(); 
+    }
+}COPIAR CÓDIGO
+É muito importante testar vários trechos de código, para ver exatamente em quais linhas de código o erro de compilação aparecerá.
+
+Private
+private é o mais restritivo de todos os modificadores de acesso. Membros definidos como private só podem ser acessados de dentro da classe e de nenhum outro lugar, independente de pacote ou herança:
+
+
+package forma;
+
+public class Forma{
+    protected double lado;
+    public double getArea(){}
+
+    //cor só pode ser acessada dentro da classe Forma,
+    //nem as classe Quadrado e Triangulo conseguem acessar
+    private String cor;
+
+}COPIAR CÓDIGO
+Private e classes aninhadas ou anônimas
+Classes aninhadas ou anônimas podem acessar membros privados da classe onde estão contidas. Na certificação tais classes não são cobradas.
+
+Métodos privados e padrão não podem ser sobrescritos. Se uma classe o "sobrescreve", ele simplesmente é um método novo, portanto não podemos dizer que é sobrescrita. Veremos isso mais a fundo na seção sobre sobrescrita.
+
+Resumo das regras de visibilidade
+Todos os membros da classe com o modificador de private só podem ser acessados de dentro dela mesma.
+
+Todos os membros da classe sem nenhum modificador de visibilidade, ou seja, com visibilidade package-private, podem ser acessados de dentro da própria classe ou de dentro de qualquer outra classe, interface ou enum do mesmo pacote.
+
+Todos os membros da classe com o modificador protected podem ser acessados:
+
+de dentro da classe, ou de dentro de qualquer outra classe, interface ou enum do mesmo pacote;
+de dentro de alguma classe que deriva direta ou indiretamente da classe, independente do pacote. O membro protected só pode ser chamado através da referência this, ou por uma referência que seja dessa classe filha.
+Todos os membros da classe com o modificador public podem ser acessados de qualquer lugar da aplicação.
+
+E não podemos ter classes/interfaces/enums top-level como private ou protected.
+
+Uma classe é dita top-level se ela não foi definida dentro de outra classe, interface ou enum. Analogamente, são definidas as interfaces top-level e os enums top-lev
+
+Aplique princípios de encapsulamento a uma classe
+PRÓXIMA ATIVIDADE
+
+A assinatura de um método é o que realmente deve importar para o usuário de alguma classe. Segundo os bons princípios do encapsulamento, a implementação dos métodos deve estar encapsulada e não deve fazer diferença para o usuário.
+
+O que é importante em uma classe é o que ela faz e não como ela faz. O que ela faz é definido pelos comportamentos expostos, ou seja, pelos métodos e suas assinaturas.
+
+O conjunto de assinaturas de métodos visíveis de uma classe é chamado de interface de uso. É através dessas operações que os usuários vão se comunicar com os objetos dessa classe.
+
+Mantendo os detalhes de implementação de nossas classes "escondidos", evitamos que mudanças na forma de implementar uma lógica quebre vários pontos de nossa aplicação.
+
+Uma das formas mais simples de começar a encapsular o comportamento de uma classe é escondendo seus atributos. Podemos fazer isso facilmente usando a palavra-chave private:
+
+
+public class Pessoa{
+    private String nome;
+}COPIAR CÓDIGO
+Caso precisemos acessar um desses atributos a partir de outra classes, teremos que criar um método para liberar o acesso de leitura desse atributo. Seguindo a especificação dos javabeans, esse método seria um getter. Da mesma forma , se precisarmos liberar a escrita de algum atributo, criamos um método setter :
+
+
+    public class Pessoa{
+        private String nome;
+
+        public String getNome() {
+            return nome;
+        }
+        public void setNome(String nome) {
+            this.nome = nome;
+        }
+    }COPIAR CÓDIGO
+Com essa abordagem, poderíamos fazer uma validação em nossos métodos, para evitar que nossos atributos fiquem com estado inválido. Por exemplo, podemos verificar se o nome possui pelo menos 3 caracteres:
+
+
+public class Pessoa{
+    private String nome;
+    private String sobrenome;
+
+    public String getNome() {
+        return nome;
+    }
+    public void setNome(String nome) {
+        if(nome!= null && nome.trim().length() >= 3)
+            this.nome = nome;
+        else{
+            throw new IllegalArgumentException(
+             "Nome deve possuir " + "pelo menos 3 caracteres");
+        }
+    }
+}COPIAR CÓDIGO
+Encapsulamento é muito mais do que atributos privados e getters e setters . Não é nosso foco aqui discutir boas práticas de programação, e sim o conhecimento necessário para passar na prova. Em questões sobre encapsulamento sempre, fique atento à alternativa que esconde mais detalhes de implementação da classe analisada. A prova pode utilizar tanto o termo encapsulation como information hiding para falar sobre encapsulamento (ou esconder informações).
+
+
+
+Efeito que ocorre com referências a objetos e a tipos primitivos quando passados a outros métodos
+PRÓXIMA ATIVIDADE
+
+As informações que queremos enviar para um método devem ser passadas como parâmetro. O domínio de como funciona a passagem de parâmetro é fundamental para a prova de certificação.
+
+O requisito para entender passagem de parâmetro no Java é saber como funciona a pilha de execução e o heap de objetos.
+
+A pilha de execução é o "lugar" onde são empilhados os métodos invocados na mesma ordem em que foram chamados.
+
+O heap é o "lugar" onde são guardados os objetos criados durante a execução.
+
+Considere o exemplo a seguir:
+
+
+class Teste {
+    public static void main(String[] args) {
+        int i = 2;
+        teste(i);
+    }
+
+    private static void teste(int i) {
+        for (int j = 0; j < i; j++) {
+            new String("j = " + j);
+        }
+    }
+}COPIAR CÓDIGO
+
+
+
+
+A passagem de parâmetros é feita por cópia de valores. Dessa forma, mudanças nos valores das variáveis definidas na lista de parâmetros de um método não afetam variáveis de outros métodos.
+
+Passagem de parâmetros primitivos
+Veja o seguinte código:
+
+
+class Teste {
+    public static void main(String[] args) {
+        int i = 2;
+        teste(i);
+        System.out.println(i); 
+    }
+
+    static void teste(int i) {
+        i = 3;
+    }
+}COPIAR CÓDIGO
+Ao executar a classe Teste, será impresso o valor 2. É necessário perceber que as duas variáveis com o nome i estão em métodos diferentes. Há um i no main() e outro i no teste(). Alterações em uma das variáveis não afetam o valor da outra.
+
+Passagem de parâmetros de referência
+Agora veja esta classe:
+
+
+class Teste {
+    public static void main(String[] args) {
+        Prova prova = new Prova();
+        prova.tempo = 100;
+        teste(prova);
+        System.out.println(prova.tempo); 
+    }
+
+    static void teste(Prova prova) {
+        prova.tempo = 210;
+    }
+}
+
+class Prova {
+    double tempo;
+}COPIAR CÓDIGO
+Esse exemplo é bem interessante e causa muita confusão. O que será impresso na saída, ao executar a classe Teste, é o valor 210. Os dois métodos têm variáveis com o mesmo nome (prova). Essas variáveis são realmente independentes, ou seja, mudar o valor de uma não afeta o valor da outra.
+
+Por outro lado, como são variáveis não primitivas, elas guardam referências e, neste caso, são referências que apontam para o mesmo objeto. Modificações nesse objeto podem ser executadas através de ambas as referências.
+
+Mas se eu trocar a referência, só estou trocando nesta variável local, e não no objeto referenciado, como no exemplo do teste2, em que estamos trocando somente a referência local e não o outro:
+
+
+class Prova {
+    int tempo;
+}
+class TestaReferenciaEPrimitivo {
+    public static void main(String[] args) {
+        Prova prova = new Prova();
+        prova.tempo = 100;
+        teste(prova);
+        System.out.println(prova.tempo);
+
+        teste2(prova);
+        System.out.println(prova.tempo);
+
+
+        int i = 2;
+        i = teste(i);
+        System.out.println(i);
+    }
+    static void teste2(Prova prova) {
+        prova = new Prova();
+        prova.tempo = 520;
+    }
+
+    static void teste(Prova prova) {
+        prova.tempo = 210;
+    }
+
+    static int teste(int i) {
+        i = 5;
+        System.out.println(i);
+        return i;
+    }
+}COPIAR CÓDIGO
+ DISCUTIR NO FORUM
+

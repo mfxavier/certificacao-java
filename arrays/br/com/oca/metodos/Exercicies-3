@@ -1,0 +1,83 @@
+1-Escolha a opção adequada ao tentar compilar e rodar o arquivo a seguir:
+
+
+class A {
+    public static void main(String[] args) {
+        int x = b(15);
+        System.out.println(x);
+        System.out.println(15);
+        System.out.println(15.0);
+    }
+    static int b(int i) { return i; } 
+    static double b(int i) { return i; } 
+}
+
+A)Compila e imprime 15, 15, 15.0.
+B)Compila e imprime 15, 15.0, 15.0.
+C)Não compila.
+D)Compila e imprime 15, 15, 15.
+=============================================================
+2- Escolha a opção adequada ao tentar compilar e rodar o arquivo a seguir:
+
+class A {
+    public static void main(String[] args) {
+        int x = b(15);
+        System.out.println(x);
+        System.out.println(15);
+        System.out.println(15.0);
+    }
+    static int b(int i) { return i; } 
+    static double b(double i) { return i; } 
+}
+A)Compila e imprime 15, 15.0, 15.0.
+b)Não compila.
+C)Compila e imprime 15, 15, 15.0.
+D)Compila e imprime 15, 15, 15.
+=============================================================
+3- Escolha a opção adequada ao tentar compilar e rodar o arquivo a seguir:
+
+class A {
+    public static void main(String[] args) {
+        System.out.println("[]");
+    }
+    public static void main(String... args) {
+        System.out.println("...");
+    }
+}
+
+A)Não compila.
+BCompila e dá exception.
+C)Compila e imprime "[]".
+D)Compila e imprime "...".
+==============================================================
+4- Escolha a opção adequada ao tentar compilar e rodar o arquivo a seguir:
+class B{}
+class C{}
+class D extends B{}
+class A {
+    int a(D d) { return 1; }
+    int a(C c) { return 2; }
+    int a(B b) { return 3; }
+    int a(A a) { return 4; }
+    public static void main(String[] args) {
+        System.out.println(a(new D()));
+    }
+}
+
+A)Compila e imprime 3.
+B)Compila e imprime 2.
+C)Não compila.
+D)Compila e imprime 4.
+E)Compila e imprime 1.
+
+=============================================================
+GABARITO
+
+1- O código não compila, pois não há sobrecarga de método ao alterar só o retorno.
+2- Compila e imprime 15, 15 e 15.0.
+3- O código não compila. Pois possui dois métodos public static void main(String[] args), o que deixa a execução ambígua.
+4- Não compila: os métodos não são estáticos.
+
+
+
+
